@@ -1,6 +1,27 @@
+import sys
+import os
+
+# Force the script to use the car_racing.py of the evironment
+# sys.path.insert(0, '/Users/sergio/Desktop/Notes/CSCI_4622_(ML)/RL_SelfDrivingCar/FinalProjectvenv/lib/python3.12/site-packages')
+# Get the directory of the current file
+current_dir = os.path.dirname(os.path.abspath(__file__))
+
+# Construct the relative path to the site-packages directory
+site_packages_path = os.path.join(current_dir, 'FinalProjectvenv', 'lib', 'python3.12', 'site-packages')
+
+# Insert the relative path to sys.path
+sys.path.insert(0, site_packages_path)
+
+
+
 import gymnasium as gym
 import numpy as np
 import random
+
+
+# Print the path of the car_racing module
+import gymnasium.envs.box2d.car_racing
+print("car_racing.py path:", os.path.abspath(gymnasium.envs.box2d.car_racing.__file__))
 
 # the render mode is used to display an image so you can see what is happening, otherwise the simulation will run in the background
 # domain_randomize: Changes the physics and appearance of the track randomly
