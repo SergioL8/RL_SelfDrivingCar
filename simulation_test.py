@@ -1,5 +1,6 @@
 import gymnasium as gym
 import numpy as np
+import random
 
 # the render mode is used to display an image so you can see what is happening, otherwise the simulation will run in the background
 # domain_randomize: Changes the physics and appearance of the track randomly
@@ -8,7 +9,12 @@ env = gym.make("CarRacing-v3", render_mode="human", domain_randomize=False)
 # observation is the image itsefl
 # info contains metadata (not always used but useful for debugging)
 # seed ensures the car appears in the same spot all the time
-observation, info = env.reset(seed=42)
+
+seed = random.randint(0, 100000)
+observation, info = env.reset(seed=37843)
+print(seed)
+
+# Good maps: 37843
 
 
 
@@ -53,7 +59,6 @@ for _ in range(100000): # run onyl 1000 times
     # truncated: True if the episode is forcefully stopped (e.g., max steps reached).
     # info: Additional information about the step.
     observation, reward, terminated, truncated, info = env.step(action)
-    print(observation)
    
     
 
