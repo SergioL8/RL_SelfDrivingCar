@@ -56,12 +56,11 @@ def is_on_road(pixel):
 
 for _ in range(100000): # run onyl 1000 times
 
-    h, w, _ = observation.shape  # Get image dimensions
-    y, x = int(h * 0.6), int(w * 0.5)  # Approximate car position in the image
-    pixel = observation[y, x]
-    on_road = is_on_road(pixel)
+    # h, w, _ = observation.shape  # Get image dimensions
+    # y, x = int(h * 0.6), int(w * 0.5)  # Approximate car position in the image
+    # pixel = observation[y, x]
+    # on_road = is_on_road(pixel)
     # print('Is on road?', on_road)
-
 
 
     # action = env.action_space.sample()  # this just picks a random action, for testing purposes (In a real RL algorithm, you would replace this random action with one chosen by your trained policy.)
@@ -80,7 +79,30 @@ for _ in range(100000): # run onyl 1000 times
     # truncated: True if the episode is forcefully stopped (e.g., max steps reached).
     # info: Additional information about the step.
     observation, reward, terminated, truncated, info = env.step(action)
-   
+
+    # 1) Get the CarRacing object (not wrapped by TimeLimit, etc.)
+    car_env = env.unwrapped
+
+    # 2) Access the car object
+    car = car_env.car
+
+    # 3) Check each wheel's tiles set
+    wheel0_tiles = car.wheels[0].tiles
+    wheel1_tiles = car.wheels[1].tiles
+    wheel2_tiles = car.wheels[2].tiles
+    wheel3_tiles = car.wheels[3].tiles
+
+    # print(f"Wheel 0: {len(wheel0_tiles)} tiles, Wheel 1: {len(wheel1_tiles)} tiles, ...")
+
+    # If you want a simple "on_road" check:
+    on_road = all(len(w.tiles) > 0 for w in car.wheels)
+    # if on_road:
+    #     print("Car on road")
+    # else:
+    #     print("Car out of road")
+
+    # x_car, y_car = env.unwrapped.car.hull.position
+    # car_in_camera = env.unwrapped.coordinates_transform(x_car, y_car)
     
 
     # check if the epsido is over
